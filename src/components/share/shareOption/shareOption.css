@@ -1,0 +1,20 @@
+.shareOption{
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.shareIcon{
+    font-size: 18px;
+    margin-right: 3px;
+}
+
+.shareIconArrow{
+    transform: rotateY(180deg);
+}
+.shareOptionText{
+    font-size: 14px;
+    font-weight: 500;
+}
