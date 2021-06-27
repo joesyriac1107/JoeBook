@@ -1,3 +1,4 @@
+import ProfileImg from '../common/profile/image/ProfileImg'
 import './rightbar.css'
 
 export default function RightBar() {
@@ -18,8 +19,10 @@ export default function RightBar() {
                 <ul className="rightbarFriendList">
                     <li className="rightbarFriend">
                         <div className="rightbarProfileImgContainer">
-                            <img src="assets/person/3.jpeg" alt="" className="rightbarProfileImg"/>
+                            <ProfileImg imgSrc = "assets/person/3.jpeg" className="rightbarProfileImg"/>
+                            <div className="rightbarOnline"></div>
                         </div>
+                        <span className="rightbarFriendName">John Carter</span>
                     </li>
                 </ul>
             </div>
