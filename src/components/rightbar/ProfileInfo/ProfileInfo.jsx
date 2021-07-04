@@ -4,7 +4,7 @@ import ProfileInfoItem from './ProfileInfoItem/ProfileInfoItem'
 export default function ProfileInfo() {
   const infoMap = [
     {
-      key: 'City',
+      key: 'City:',
       value: 'New York',
     },
     {
