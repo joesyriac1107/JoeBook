@@ -30,17 +30,18 @@ export default function Post({ post }) {
           <div className="postTopLeft">
             <ProfileImg
               className="postProfileImg"
-              imgSrc={user.profilePicture}
+              imgSrc={user.profilePicture || 'person/noAvatar.png'}
             />
             <span className="postUserName">{user.userName}</span>
-            <span className="postDate">{post.date}</span>
+            <span className="postDate">{post.updatedAt}</span>
           </div>
           <div className="postTopRight">
             <MoreVert />
           </div>
         </div>
-        <div className="postCenter"></div>
-        <span className="postText">{post.desc}</span>
+        <div className="postCenter">
+          <span className="postText">{post.desc}</span>
+        </div>
         <img src={PF + post.photo} alt="" className="postImg" />
         <div className="postBottom">
           <div className="postBottomLeft">
@@ -59,7 +60,7 @@ export default function Post({ post }) {
             <span className="postLikeCounter">{like} people liked it</span>
           </div>
           <div className="postBottomRight">
-            <span className="postCommentText">{post.comment} comments</span>
+            <span className="postCommentText">{post.comments} comments</span>
           </div>
         </div>
       </div>
