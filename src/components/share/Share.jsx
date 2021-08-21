@@ -1,5 +1,6 @@
 import axios from 'axios'
-import { useContext, useRef } from 'react'
+import { useContext, useRef, useState } from 'react'
+import { uploadFile } from '../../apiCalls'
 import { AuthContext } from '../../context/AuthContext'
 import ProfileImg from '../common/profile/image/ProfileImg'
 import './share.css'
@@ -8,6 +9,7 @@ import ShareOptions from './ShareOptions/ShareOptions'
 export default function Share() {
   const { user } = useContext(AuthContext)
   const desc = useRef()
+  const [file, setFile] = useState(null)
   const submitHandler = (e) => {
     e.preventDefault()
     const newPost = {
@@ -15,6 +17,9 @@ export default function Share() {
       desc: desc.current.value,
     }
 
+    if(file){
+      uploadFile(file,user._id)
+    }
     try {
       axios.post('/posts', newPost)
     } catch (err) {
@@ -41,7 +46,7 @@ export default function Share() {
         </div>
         <hr className="shareHr" />
         <form className="shareBottom" onSubmit={submitHandler}>
-          <ShareOptions />
+          <ShareOptions setFile = {setFile}/>
         </form>
       </div>
     </div>

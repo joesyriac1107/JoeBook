@@ -1,10 +1,10 @@
 import ShareOption from '../shareOption/ShareOption'
 import './shareoptions.css'
 
-export default function ShareOptions() {
+export default function ShareOptions({setFile}) {
   return (
     <div className="shareOptions">
-      <ShareOption optionName="photoVideo" />
+      <ShareOption optionName="photoVideo" setFile = {setFile}/>
       <ShareOption optionName="tag" />
       <ShareOption optionName="location" />
       <ShareOption optionName="feelings" />

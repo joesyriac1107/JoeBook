@@ -8,9 +8,7 @@ import {
 } from '@material-ui/icons'
 import { useState } from 'react'
 
-export default function ShareOption({ optionName }) {
-  const [file, setFile] = useState()
-
+export default function ShareOption({ optionName, setFile }) {
   const optionsMap = {
     photoVideo: {
       component: <PermMedia htmlColor="tomato" className="shareIcon" />,
