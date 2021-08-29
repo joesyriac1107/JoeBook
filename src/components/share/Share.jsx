@@ -10,17 +10,18 @@ export default function Share() {
   const { user } = useContext(AuthContext)
   const desc = useRef()
   const [file, setFile] = useState(null)
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault()
     const newPost = {
       userId: user._id,
       desc: desc.current.value,
     }
-
-    if(file){
-      uploadFile(file,user._id)
-    }
     try {
+      let fileName
+      if (file) {
+        fileName = await uploadFile(file, user._id)
+        newPost.imgName = fileName
+      }
       axios.post('/posts', newPost)
     } catch (err) {
       console.log(err)
@@ -46,7 +47,7 @@ export default function Share() {
         </div>
         <hr className="shareHr" />
         <form className="shareBottom" onSubmit={submitHandler}>
-          <ShareOptions setFile = {setFile}/>
+          <ShareOptions setFile={setFile} />
         </form>
       </div>
     </div>

@@ -9,14 +9,19 @@ export default function Post({ post }) {
   const [isLiked, setIsLiked] = useState(false)
   const [user, setUser] = useState({})
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
-
+  const CDN = process.env.REACT_APP_IMAGE_CDN_PREFIX
   useEffect(() => {
     const fetchUser = async () => {
       const res = await axios.get(`users/${post.userId}`)
       setUser(res.data)
     }
+    // const fetchImage = async () => {
+    //   const res = await axios.get(`storage/${post.userId}/${post.imgName}`)
+    //   setUser(res.data)
+    // }
     fetchUser()
-  }, [])
+    // fetchImage()
+  }, [post.imgName, post.userId])
 
   const likeHandler = () => {
     setLike(isLiked ? like - 1 : like + 1)
@@ -42,7 +47,11 @@ export default function Post({ post }) {
         <div className="postCenter">
           <span className="postText">{post.desc}</span>
         </div>
-        <img src={PF + post.photo} alt="" className="postImg" />
+        <img
+          src={`${CDN}${post.userId}/${post.imgName}`}
+          alt=""
+          className="postImg"
+        />
         <div className="postBottom">
           <div className="postBottomLeft">
             <img
