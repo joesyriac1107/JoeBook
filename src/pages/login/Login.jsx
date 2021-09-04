@@ -2,6 +2,7 @@ import { CircularProgress } from '@material-ui/core'
 import { useContext, useRef } from 'react'
 import { loginCall } from '../../apiCalls'
 import { AuthContext } from '../../context/AuthContext'
+import { PostContext } from '../../context/PostContext/PostContext'
 import './login.css'
 
 export default function Login() {
@@ -9,12 +10,13 @@ export default function Login() {
   const password = useRef()
 
   const { user, isFetching, error, dispatch } = useContext(AuthContext)
-
+  const postContext = useContext(PostContext)
   const handleClick = (e) => {
     e.preventDefault()
     loginCall(
       { email: email.current.value, password: password.current.value },
-      dispatch
+      dispatch,
+      postContext.dispatch
     )
   }
 

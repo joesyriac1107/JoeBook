@@ -1,10 +1,12 @@
 import axios from 'axios'
 
-export const loginCall = async (userCredential, dispatch) => {
+export const loginCall = async (userCredential, dispatch, postDispatch) => {
   dispatch({ type: 'LOGIN_START' })
   try {
-    const res = await axios.post('auth/login', userCredential)
-    dispatch({ type: 'LOGIN_SUCCESS', payload: res.data })
+    const res = await axios.post('auth/login', userCredential)  
+    dispatch({ type: 'LOGIN_SUCCESS', payload: res.data }) 
+    fetchPosts(res.data,postDispatch)
+    
   } catch (err) {
     dispatch({ type: 'LOGIN_FAILURE', payload: err })
   }
@@ -21,5 +23,14 @@ export const uploadFile = async (file, containerName) => {
     return Promise.resolve(fileName)
   } catch (err) {
     return Promise.reject(err)
+  }
+}
+
+export const fetchPosts = async (user,dispatch) => {
+  try {
+    const res = user ? await axios.get(`posts/${user._id}/timeline`) : null
+    res ? dispatch({type:'POST_ADD_ALL', payload:res.data}) : console.log('NUll response')
+  } catch (err) {
+    console.log(err)
   }
 }

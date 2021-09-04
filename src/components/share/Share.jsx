@@ -3,11 +3,13 @@ import { useContext, useRef, useState } from 'react'
 import { uploadFile } from '../../apiCalls'
 import { AuthContext } from '../../context/AuthContext'
 import ProfileImg from '../common/profile/image/ProfileImg'
+import { PostContext } from '../../context/PostContext/PostContext'
 import './share.css'
 import ShareOptions from './ShareOptions/ShareOptions'
 
 export default function Share() {
   const { user } = useContext(AuthContext)
+  const {   dispatch} = useContext(PostContext)
   const desc = useRef()
   const [file, setFile] = useState(null)
   const submitHandler = async (e) => {
@@ -22,7 +24,9 @@ export default function Share() {
         fileName = await uploadFile(file, user._id)
         newPost.imgName = fileName
       }
-      axios.post('/posts', newPost)
+      const savedPost = await axios.post('/posts', newPost)
+      dispatch({type:'POST_ADD',payload: savedPost.data})
+
     } catch (err) {
       console.log(err)
     }
