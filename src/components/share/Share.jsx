@@ -1,22 +1,22 @@
 import axios from 'axios'
-import { useContext, useRef, useState } from 'react'
-import { uploadFile } from '../../apiCalls'
-import { AuthContext } from '../../context/AuthContext'
+import {useContext, useRef, useState} from 'react'
+import {uploadFile} from '../../apiCalls'
+import {AuthContext} from '../../context/AuthContext'
 import ProfileImg from '../common/profile/image/ProfileImg'
-import { PostContext } from '../../context/PostContext/PostContext'
+import {PostContext} from '../../context/PostContext/PostContext'
 import './share.css'
 import ShareOptions from './ShareOptions/ShareOptions'
 
 export default function Share() {
-  const { user } = useContext(AuthContext)
-  const {   dispatch} = useContext(PostContext)
+  const {user} = useContext(AuthContext)
+  const {dispatch} = useContext(PostContext)
   const desc = useRef()
   const [file, setFile] = useState(null)
   const submitHandler = async (e) => {
     e.preventDefault()
     const newPost = {
       userId: user._id,
-      desc: desc.current.value,
+      desc: desc.current.value
     }
     try {
       let fileName
@@ -25,7 +25,7 @@ export default function Share() {
         newPost.imgName = fileName
       }
       const savedPost = await axios.post('/posts', newPost)
-      dispatch({type:'POST_ADD',payload: savedPost.data})
+      dispatch({type: 'POST_ADD', payload: savedPost.data})
 
     } catch (err) {
       console.log(err)
@@ -34,24 +34,25 @@ export default function Share() {
   return (
     <div className="share">
       <div className="shareWrapper">
-        <div className="shareTop">
-          <ProfileImg
-            className="shareProfileImg"
-            imgSrc={
-              user && user.profilePicture
-                ? user.profilePicture
-                : 'person/noAvatar.png'
+        <div className="sharePost">
+          <div className="shareTop">
+            <ProfileImg className="shareProfileImg"
+              imgSrc={
+                user && user.profilePicture ? user.profilePicture : 'person/noAvatar.png'
+              }/>
+            <input placeholder="Whats in your mind Safak?" className="shareInput"
+              ref={desc}/>
+          </div>
+          <img src={
+              file && URL.createObjectURL(file)
             }
-          />
-          <input
-            placeholder="Whats in your mind Safak?"
-            className="shareInput"
-            ref={desc}
-          />
-        </div>
-        <hr className="shareHr" />
-        <form className="shareBottom" onSubmit={submitHandler}>
-          <ShareOptions setFile={setFile} />
+            alt=""
+            className="shareImg"/>
+          </div>
+        <hr className="shareHr"/>
+        <form className="shareBottom"
+          onSubmit={submitHandler}>
+          <ShareOptions setFile={setFile}/>
         </form>
       </div>
     </div>
