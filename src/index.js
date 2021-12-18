@@ -1,14 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
-import {AuthContextProvider} from './context/AuthContext'
-import {PostContextProvider} from './context/PostContext/PostContext'
+import { AuthContextProvider } from './context/AuthContext'
+import { PostContextProvider } from './context/PostContext/PostContext'
+import axios from 'axios'
 
-ReactDOM.render (
+axios.defaults.baseURL = 'http://localhost:8800/api'
+
+ReactDOM.render(
   <React.StrictMode>
     <PostContextProvider>
       <AuthContextProvider>
-        <App/>
+        <App />
       </AuthContextProvider>
     </PostContextProvider>
   </React.StrictMode>,

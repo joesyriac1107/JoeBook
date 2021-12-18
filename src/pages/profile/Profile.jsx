@@ -4,11 +4,21 @@ import Sidebar from '../../components/sidebar/Sidebar'
 import TopBar from '../../components/topbar/Topbar'
 import ProfileImg from '../../components/common/profile/image/ProfileImg'
 import './Profile.css'
-import { useContext } from 'react'
-import { AuthContext } from '../../context/AuthContext'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
 
 export default function Profile() {
-  const { user } = useContext(AuthContext)
+  const [user, setUser] = useState({})
+  const userId = useParams().userId
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const res = await axios.get(`/users/${userId}`)
+      setUser(res.data)
+    }
+    fetchUser()
+  }, [userId])
 
   return (
     <>
@@ -36,13 +46,13 @@ export default function Profile() {
               />
             </div>
             <div className="profileInfo">
-              <h4 className="profileInfoName">Joe Syriac</h4>
-              <span className="profileInfoDesc">Hello My Friends</span>
+              <h4 className="profileInfoName">{user.userName}</h4>
+              <span className="profileInfoDesc">{user.desc}</span>
             </div>
           </div>
           <div className="profileRightBottom">
-            <Feed />
-            <RightBar profile />
+            <Feed userId={userId} />
+            <RightBar user={user} />
           </div>
         </div>
       </div>

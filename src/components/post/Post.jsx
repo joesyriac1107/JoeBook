@@ -1,13 +1,17 @@
 import { MoreVert } from '@material-ui/icons'
 import ProfileImg from '../common/profile/image/ProfileImg'
 import './post.css'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { format } from 'timeago.js'
+import { AuthContext } from '../../context/AuthContext'
 
 export default function Post({ post }) {
   const [like, setLike] = useState(post.likes.length)
   const [isLiked, setIsLiked] = useState(false)
   const [user, setUser] = useState({})
+  const { user: currentUser } = useContext(AuthContext)
   const PF = process.env.REACT_APP_PUBLIC_FOLDER
   const CDN = process.env.REACT_APP_IMAGE_CDN_PREFIX
   useEffect(() => {
@@ -24,21 +28,27 @@ export default function Post({ post }) {
   }, [post.imgName, post.userId])
 
   const likeHandler = () => {
+    try {
+      axios.put('/posts/' + post._id + '/like', { userId: currentUser._id })
+    } catch (err) {}
     setLike(isLiked ? like - 1 : like + 1)
     setIsLiked(!isLiked)
   }
 
+  const profileLink = encodeURI('/profile/' + user._id)
   return (
     <div className="post">
       <div className="postWrapper">
         <div className="postTop">
           <div className="postTopLeft">
-            <ProfileImg
-              className="postProfileImg"
-              imgSrc={user.profilePicture || 'person/noAvatar.png'}
-            />
+            <Link to={profileLink} style={{ textDecoration: 'none' }}>
+              <ProfileImg
+                className="postProfileImg"
+                imgSrc={user.profilePicture || 'person/noAvatar.png'}
+              />
+            </Link>
             <span className="postUserName">{user.userName}</span>
-            <span className="postDate">{post.updatedAt}</span>
+            <span className="postDate">{format(post.updatedAt)}</span>
           </div>
           <div className="postTopRight">
             <MoreVert />
@@ -47,11 +57,13 @@ export default function Post({ post }) {
         <div className="postCenter">
           <span className="postText">{post.desc}</span>
         </div>
-        <img
-          src={`${CDN}${post.userId}/${post.imgName}`}
-          alt=""
-          className="postImg"
-        />
+        {post.imgName && (
+          <img
+            src={`${CDN}${post.userId}/${post.imgName}`}
+            alt=""
+            className="postImg"
+          />
+        )}
         <div className="postBottom">
           <div className="postBottomLeft">
             <img
