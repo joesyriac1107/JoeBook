@@ -37,7 +37,7 @@ export default function Feed({ userId }) {
     }
 
     fetchPosts()
-  }, [userId, user._id])
+  }, [userId, user._id, isUpLoading])
   return (
     <div className="feed">
       <div className="feedWrapper">
